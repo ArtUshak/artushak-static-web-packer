@@ -16,16 +16,15 @@ use artushak_web_assets::{
     assets::{AssetError, AssetFilterError},
     load_cache_manifest, pack,
 };
-use clap::Clap;
+use clap::Parser;
 use filters::{scss2css::AssetFilterSCSS, AssetFilterCustomError};
 use manifest::StaticWebsiteManifest;
 use serde_json::from_reader;
 use tera::{Context, Tera};
 use tera_filter::get_tera_function_get_asset_url;
 
-#[derive(Clap)]
+#[derive(Parser)]
 #[clap(author = "Artiom Khandamirov <t9max@yandex.ru>")]
-#[clap(setting = clap::AppSettings::ColoredHelp)]
 struct CLIOptions {
     #[clap(short, long)]
     manifest_file: Option<PathBuf>,
