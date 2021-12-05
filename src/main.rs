@@ -1,6 +1,7 @@
 pub mod filters;
 pub mod manifest;
 pub mod tera_filter;
+mod test;
 
 use std::{
     collections::HashMap,
@@ -17,7 +18,10 @@ use artushak_web_assets::{
     load_cache_manifest, pack,
 };
 use clap::Parser;
-use filters::{scss2css::AssetFilterSCSS, AssetFilterCustomError};
+use filters::{
+    run_executable::AssetFilterRunExecutable, scss2css::AssetFilterSCSS, AssetFilterCustomError,
+};
+use log::info;
 use manifest::StaticWebsiteManifest;
 use serde_json::from_reader;
 use tera::{Context, Tera};
@@ -38,13 +42,15 @@ pub fn process_manifest<E>(
 where
     E: AssetFilterError,
 {
+    env_logger::init();
+
     let asset_config = AssetConfig {
         target_directory_path: manifest.static_directory_path,
         internal_directory_path: manifest.internal_directory_path,
         source_directory_path: manifest.asset_directory_path,
     };
 
-    println!("Processing assets...");
+    info!("Processing assets...");
     pack(
         &manifest.asset_manifest_path,
         &manifest.asset_cache_manifest_path,
@@ -54,7 +60,7 @@ where
 
     let asset_manifest = load_cache_manifest(&manifest.asset_cache_manifest_path)?;
 
-    println!("Initializing Tera...");
+    info!("Initializing Tera...");
     let mut tera = Tera::new(&manifest.tera_input_directory)?;
 
     tera.register_function(
@@ -67,7 +73,7 @@ where
         context.insert(key, value);
     }
 
-    println!("Processing Tera templates...");
+    info!("Processing Tera templates...");
     for template_entry in manifest.tera_templates {
         let mut local_context = context.clone();
         for (key, value) in template_entry.context.iter() {
@@ -84,7 +90,7 @@ where
         output_file.write_all(rendered_html.as_bytes())?;
     }
 
-    println!("Copying other files...");
+    info!("Copying other files...");
     for copy_path in manifest.copy_paths {
         copy(
             manifest.copy_input_directory_path.join(&copy_path),
@@ -153,6 +159,10 @@ fn main() {
         Box::new(AssetFilterSCSS {
             format: Default::default(),
         }),
+    );
+    asset_filters_map.insert(
+        "RunExecutable".to_string(),
+        Box::new(AssetFilterRunExecutable {}),
     );
 
     let asset_filter_registry = AssetFilterRegistry::new(asset_filters_map);

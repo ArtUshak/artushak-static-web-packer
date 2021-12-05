@@ -15,6 +15,7 @@ repository = "https://github.com/artushak/artushak_static_web_packer/"
 [dependencies]
 artushak-web-assets = { git = "https://github.com/artushak/artushak-web-assets" }
 clap = "3.0.0-beta"
+env_logger = "0.9"
 log = "0.4"
 rsass = "0.22"
 serde = { version = "1", features = ["derive"] }

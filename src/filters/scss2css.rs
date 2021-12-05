@@ -4,7 +4,7 @@ use std::{
 };
 
 use artushak_web_assets::{
-    asset_filter::AssetFilter,
+    asset_filter::{AssetFilter, AssetFilterOption},
     assets::{AssetError, AssetErrorType},
 };
 use rsass::compile_scss;
@@ -20,7 +20,7 @@ impl AssetFilter<AssetFilterCustomError> for AssetFilterSCSS {
         &self,
         input_file_paths: &[PathBuf],
         output_file_path: &Path,
-        _options: &HashMap<String, String>,
+        _options: &HashMap<String, AssetFilterOption>,
     ) -> Result<(), AssetError<AssetFilterCustomError>> {
         if input_file_paths.len() != 1 {
             return Err(AssetError::new(AssetErrorType::FilterError(
