@@ -1,7 +1,6 @@
 pub mod filters;
 pub mod manifest;
 pub mod tera_filter;
-mod test;
 
 use std::{
     collections::HashMap,
