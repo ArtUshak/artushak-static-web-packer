@@ -1,0 +1,52 @@
+$base-distance: 10px;
+$base-border-width: 2px;
+
+body {
+  font-family: "Fira Mono", monospace;
+  margin: $base-distance * 2;
+  line-height: 1.6;
+  font-size: 18px;
+  color: black;
+  background-color: white;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  text-decoration: none;
+  background-color: lightblue;
+}
+
+a.section-link {
+  color: gray;
+}
+
+section, header {
+  border-collapse: collapse;
+  border-left-style: solid;
+  border-left-width: $base-border-width;
+  margin-bottom: $base-distance;
+  margin-top: $base-distance;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: $base-distance * 2;
+  padding-right: $base-distance;
+}
+
+ul, ol {
+  padding-left: $base-distance * 2;
+}
+
+section:target {
+  h1, h2, h3 {
+    background-color: lavender;
+  }
+}
+
+@media (min-width: 640px) {
+  .image-portrait {
+    float: right;
+  }
+}

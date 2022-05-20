@@ -1,0 +1,26 @@
+{
+    "assets": {
+        "style-scss": {
+            "extension": "scss",
+            "source": {
+                "File": "styles/style.scss"
+            }
+        },
+        "style": {
+            "output_base_path": "styles",
+            "extension": "css",
+            "source": {
+                "Filtered": {
+                    "filter_name": "SCSS2CSS",
+                    "input_names": [
+                        "style-scss"
+                    ],
+                    "options": {}
+                }
+            }
+        }
+    },
+    "public_assets": [
+        "style"
+    ]
+}

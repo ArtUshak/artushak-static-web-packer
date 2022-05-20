@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru-RU">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>TEST WEBSITE</title>
+    <link href="{{ get_asset_url(name="style") | safe }}" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    <main>
+        <header>
+            <h1>Тест</h1>
+        </header>
+    </main>
+</body>
+
+</html>

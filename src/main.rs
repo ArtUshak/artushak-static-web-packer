@@ -1,12 +1,13 @@
 pub mod filters;
 pub mod manifest;
 pub mod tera_filter;
+mod test;
 
 use std::{
     collections::HashMap,
     fs::{copy, File},
     io::{self, Write},
-    path::PathBuf,
+    path::{PathBuf, Path},
     str::FromStr,
 };
 
@@ -26,7 +27,7 @@ use serde_json::from_reader;
 use tera::{Context, Tera};
 use tera_filter::get_tera_function_get_asset_url;
 
-#[derive(Parser)]
+#[derive(Parser, Debug)]
 #[clap(author = "Artiom Khandamirov <t9max@yandex.ru>")]
 struct CLIOptions {
     #[clap(short, long)]
@@ -108,6 +109,7 @@ where
     IOError(io::Error),
     TeraError(tera::Error),
     AssetError(AssetError<E>),
+    JSONError(serde_json::Error),
 }
 
 impl<E> From<tera::Error> for StatickPackError<E>
@@ -137,17 +139,20 @@ where
     }
 }
 
-fn main() {
-    let opts = CLIOptions::parse();
+impl<E> From<serde_json::Error> for StatickPackError<E>
+where
+    E: AssetFilterError,
+{
+    fn from(err: serde_json::Error) -> Self {
+        StatickPackError::JSONError(err)
+    }
+}
 
-    let manifest_file_path = opts
-        .manifest_file
-        .unwrap_or_else(|| PathBuf::from_str("static_website.json").unwrap());
-
+fn run(manifest_file_path: &Path) -> Result<(), StatickPackError<AssetFilterCustomError>> {
     let manifest: StaticWebsiteManifest;
     {
-        let manifest_file = File::open(manifest_file_path).unwrap();
-        manifest = from_reader(manifest_file).unwrap();
+        let manifest_file = File::open(manifest_file_path)?;
+        manifest = from_reader(manifest_file)?;
     }
 
     // TODO
@@ -166,5 +171,17 @@ fn main() {
 
     let asset_filter_registry = AssetFilterRegistry::new(asset_filters_map);
 
-    process_manifest(manifest, Context::new(), asset_filter_registry).unwrap();
+    process_manifest(manifest, Context::new(), asset_filter_registry)?;
+
+    Ok(())
+}
+
+fn main() {
+    let opts = CLIOptions::parse();
+
+    let manifest_file_path = opts
+        .manifest_file
+        .unwrap_or_else(|| PathBuf::from_str("static_website.json").unwrap());
+
+        run(&manifest_file_path).unwrap();
 }

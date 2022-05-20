@@ -14,13 +14,17 @@ repository = "https://github.com/artushak/artushak_static_web_packer/"
 
 [dependencies]
 artushak-web-assets = { git = "https://github.com/artushak/artushak-web-assets" }
-clap = "3.0.0-beta"
+clap = { version = "3", features = ["derive"] }
 env_logger = "0.9"
 log = "0.4"
-rsass = "0.22"
+rsass = "0.25"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 tera = "1"
 
 [dev-dependencies]
 tempfile = "3"
+scraper = "0.13.0"
+html5ever = "0.26.0"
+
+[features]

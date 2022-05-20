@@ -1,0 +1,24 @@
+{
+    "asset_manifest_path": "test_files/assets.json",
+    "asset_cache_manifest_path": "internal/assets_cache.json",
+    "asset_directory_path": "test_files/assets",
+    "internal_directory_path": "internal/assets",
+    "static_directory_path": "output/static",
+    "static_base_url": "/static/",
+    "tera_input_directory": "test_files/website/*.html.tera",
+    "html_output_directory_path": "output",
+    "tera_templates": [
+        {
+            "template_name": "index.html.tera",
+            "output_name": "index.html",
+            "context": {}
+        }
+    ],
+    "context": {},
+    "copy_output_directory_path": "output",
+    "copy_input_directory_path": "test_files/website",
+    "copy_paths": [
+        "yandex_e2fe19717388f9a8.html",
+        "robots.txt"
+    ]
+}
