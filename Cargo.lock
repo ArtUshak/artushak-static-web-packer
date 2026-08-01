@@ -125,9 +125,9 @@ dependencies = [
 
 [[package]]
 name = "artushak-web-assets"
-version = "0.2.1"
+version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8cc0fbc37e125decbf669199ca55ce911a3c6e208cc4c281ea4fefd4a9e3da3d"
+checksum = "20fa5680e1609abe435ae4ba3d4e926052c8d10f6709f700958fad60e4cae904"
 dependencies = [
  "backtrace",
  "base64",
